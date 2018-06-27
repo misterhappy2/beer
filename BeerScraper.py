@@ -25,7 +25,7 @@ def create_data(n_samples=10000):
 
     # Rearranging columns so non-word-frequency columns are first
     cols = data.columns.tolist()
-    [cols.insert(0, cols.pop(cols.index(col))) for col in ["rating", "style", "brewery", "name", "words"]]
+    [cols.insert(0, cols.pop(cols.index(col))) for col in ["rating", "style", "brewery", "name", "review"]]
     data = data[cols]
 
     # Filtering to remove not-very-useful columns (words) or rows (beers)

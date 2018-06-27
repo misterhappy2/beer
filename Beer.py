@@ -18,9 +18,9 @@ class Beer:
         self.name, self.brewery = self.get_name()
         if self.name is not None:
             self.rating = self.get_rating()
-            self.words = self.get_words()
+            self.review = self.get_words()
             self.style = self.get_style()
-            self.freq_dist = nltk.FreqDist(self.words)
+            self.freq_dist = nltk.FreqDist(self.review)
         else:
             self.get_rating = None
             self.words = None
@@ -47,12 +47,12 @@ class Beer:
         return soup
 
     def get_words(self):
-        words = ''
+        review = ''
         for s in self.soup.find_all("div", id="rating_fullview_content_2"):
             s = list(s.stripped_strings)[5:]
-            words += ' '.join(s[:-4]) + ' '
+            review += ' '.join(s[:-4]) + ' '
         # Convert to all lowercase
-        words = words.lower()
+        review = review.lower()
         # Convert to list of words
         #words = words.split()
         # Remove stopwords
@@ -63,7 +63,7 @@ class Beer:
         #words = [word for word in words if word not in ['name', 'style', 'brewery', 'rating', '']]
         # Remove numbers
         #words = [word for word in words if not word.isdigit()]
-        return words
+        return review
 
     def get_style(self):
         return self.soup.find_all("a", href=re.compile("/beer/style/"))[2].get_text()
@@ -76,7 +76,7 @@ class Beer:
         # Returns dictionary of attributes of the beer
         # Used to create dataframe
         attributes = {'name': self.name, 'brewery': self.brewery, 'style': self.style,
-                      'rating': self.rating,'words': self.words}
+                      'rating': self.rating,'review': self.review}
         attributes.update(self.freq_dist)
         return attributes
 
