@@ -4,15 +4,10 @@ import re
 import nltk
 import pandas as pd
 
-
 class Beer:
-    """
-    Beer object contains word-frequency data for the BeerAdvocate reviews of given beer.
-    Uses first 25 comments from "top-raters" to get the data.
-    Expandable to get more comments, but requires grabbing a new page for every 25 comments, which can be costly
+    """Beer object contains word-frequency data for the BeerAdvocate reviews of given beer.
     """
     def __init__(self, beer_id):
-        # self.beer_string = beer_string
         self.beer_id = beer_id
         self.soup = self.get_soup()
         self.name, self.brewery = self.get_name()
@@ -20,12 +15,10 @@ class Beer:
             self.rating = self.get_rating()
             self.review = self.get_words()
             self.style = self.get_style()
-            self.freq_dist = nltk.FreqDist(self.review)
         else:
             self.get_rating = None
             self.words = None
             self.style = None
-            self.freq_dist = None
 
     def get_name(self):
         n_b = self.soup.find("h1").get_text()
@@ -51,33 +44,16 @@ class Beer:
         for s in self.soup.find_all("div", id="rating_fullview_content_2"):
             s = list(s.stripped_strings)[5:]
             review += ' '.join(s[:-4]) + ' '
-        # Convert to all lowercase
-        review = review.lower()
-        # Convert to list of words
-        #words = words.split()
-        # Remove stopwords
-        #words = [word for word in words if word not in nltk.corpus.stopwords.words("english")]
-        # Remove puncutation
-        #words = [self.remove_punc(word) for word in words]
-        # Remove some particular words that break things
-        #words = [word for word in words if word not in ['name', 'style', 'brewery', 'rating', '']]
-        # Remove numbers
-        #words = [word for word in words if not word.isdigit()]
+        review = review.lower()  # Convert to all lowercase
         return review
 
     def get_style(self):
         return self.soup.find_all("a", href=re.compile("/beer/style/"))[2].get_text()
 
-    def remove_punc(self, word):
-        # Removes punctuation from a word
-        return re.sub(r'[^\w\s]', '', word)
-
     def get_attributes(self):
-        # Returns dictionary of attributes of the beer
-        # Used to create dataframe
+        # Returns dictionary of attributes of the beer used to create dataframe
         attributes = {'name': self.name, 'brewery': self.brewery, 'style': self.style,
                       'rating': self.rating,'review': self.review}
-        attributes.update(self.freq_dist)
         return attributes
 
     def create_df(self):
