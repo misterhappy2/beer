@@ -1,5 +1,5 @@
 # BEER!
-"Whoever drinks **BEER**, he is quick to sleep; whoever sleeps long, does not sin; whoever does not sin, enters Heaven!  Thus, let us drink beer!"  Martin Luther
+"Whoever drinks **BEER**, he is quick to sleep; whoever sleeps long, does not sin; whoever does not sin, enters Heaven!  Thus, let us drink **BEER**!"  Martin Luther
 
 ### Python code to scrape and analyze reviews from BeerAdvocate.com  
 forked from  **jtrawinski/BeerScraper** on github.  
